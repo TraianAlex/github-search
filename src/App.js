@@ -24,7 +24,10 @@ function App() {
         setProfile(reverse(sortBy(r.data, ['stargazers_count'])));
         setError('');
       })
-      .catch((error) => setError(error));
+      .catch((error) => {
+        setError(error);
+        setProfile([]);
+      });
     setUser("");
   };
 
