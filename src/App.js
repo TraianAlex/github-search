@@ -8,10 +8,13 @@ import {
   Alert,
 } from "react-bootstrap";
 import axios from "axios";
-import { sortBy, reverse } from 'lodash';
+import { sortBy, reverse } from "lodash";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
+const sortByProperty = (obj, param, func) =>
+  func(reverse(sortBy(obj, [param])));
+
+const App = () => {
   const [user, setUser] = useState("");
   const [profile, setProfile] = useState([]);
   const [error, setError] = useState("");
@@ -21,8 +24,8 @@ function App() {
     await axios
       .get(`https://api.github.com/orgs/${user}/repos`)
       .then((r) => {
-        setProfile(reverse(sortBy(r.data, ['stargazers_count'])));
-        setError('');
+        sortByProperty(r.data, "stargazers_count", setProfile);
+        setError("");
       })
       .catch((error) => {
         setError(error);
@@ -31,13 +34,10 @@ function App() {
     setUser("");
   };
 
-  const sortAlpha = () => {
-    setProfile(reverse(sortBy(profile, ['name'])));
-  };
+  const sortAlpha = () => sortByProperty(profile, "name", setProfile);
 
-  const sortDefault = () => {
-    setProfile(reverse(sortBy(profile, ['stargazers_count'])));
-  };
+  const sortDefault = () =>
+    sortByProperty(profile, "stargazers_count", setProfile);
 
   return (
     <div className="container mt-3">
@@ -59,8 +59,12 @@ function App() {
           <label>Sort by</label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
-              <Button variant="outline-secondary" onClick={sortAlpha}>Alphabetical</Button>
-              <Button variant="outline-secondary" onClick={sortDefault}>By Most Stars</Button>
+              <Button variant="outline-secondary" onClick={sortAlpha}>
+                Alphabetical
+              </Button>
+              <Button variant="outline-secondary" onClick={sortDefault}>
+                By Most Stars
+              </Button>
             </InputGroup.Prepend>
           </InputGroup>
         </div>
@@ -100,6 +104,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
 export default App;
