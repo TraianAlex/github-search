@@ -1,4 +1,6 @@
+import React from "react";
 import { useState } from "react";
+import { connect } from "react-redux";
 import {
   Form,
   FormControl,
@@ -7,37 +9,25 @@ import {
   Table,
   Alert,
 } from "react-bootstrap";
-import axios from "axios";
-import { sortBy, reverse } from "lodash";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  fetchProfile,
+  sortByName,
+  sortByStars,
+} from "./store/actions/gitActions";
 
-const sortByProperty = (obj, param, func) =>
-  func(reverse(sortBy(obj, [param])));
-
-const App = () => {
+const App = ({ profile, fetchProfile, sortByName, sortByStars }) => {
   const [user, setUser] = useState("");
-  const [profile, setProfile] = useState([]);
-  const [error, setError] = useState("");
+  const error = profile.name === 'Error' ? 'No Organization Found' : null;
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await axios
-      .get(`https://api.github.com/orgs/${user}/repos`)
-      .then((r) => {
-        sortByProperty(r.data, "stargazers_count", setProfile);
-        setError("");
-      })
-      .catch((error) => {
-        setError(error);
-        setProfile([]);
-      });
-    setUser("");
+  const handleSubmit = () => {
+    fetchProfile(user);
+    setUser('');
   };
 
-  const sortAlpha = () => sortByProperty(profile, "name", setProfile);
+  const sortAlpha = () => sortByName(profile);
 
-  const sortDefault = () =>
-    sortByProperty(profile, "stargazers_count", setProfile);
+  const sortDefault = () => sortByStars(profile);
 
   return (
     <div className="container mt-3">
@@ -54,7 +44,7 @@ const App = () => {
         </Button>
       </Form>
 
-      {profile.length > 0 && (
+      {!error && profile.length > 0 && (
         <div className="mt-2">
           <label>Sort by</label>
           <InputGroup className="mb-3">
@@ -72,7 +62,7 @@ const App = () => {
 
       <Table striped bordered hover>
         <thead>
-          {profile.length > 0 && (
+          {!error && profile.length > 0 && (
             <tr>
               <th>Name</th>
               <th>Description</th>
@@ -83,7 +73,7 @@ const App = () => {
           )}
         </thead>
         <tbody>
-          {profile &&
+          {!error && profile.length > 0 &&
             profile.map((row) => (
               <tr key={row.id}>
                 <td>{row.name}</td>
@@ -99,11 +89,19 @@ const App = () => {
       </Table>
       {error && (
         <Alert variant="danger">
-          <Alert.Heading>No Organization found!</Alert.Heading>
+          <Alert.Heading>{error}</Alert.Heading>
         </Alert>
       )}
     </div>
   );
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  profile: state.profile.profile,
+});
+
+export default connect(mapStateToProps, {
+  fetchProfile,
+  sortByName,
+  sortByStars,
+})(App);
