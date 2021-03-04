@@ -1,26 +1,20 @@
-import { useState } from "react";
-import {
-  Form,
-  FormControl,
-  Button,
-  InputGroup,
-  Table,
-  Alert,
-} from "react-bootstrap";
+import React, { useState } from "react";
+import { Alert } from "react-bootstrap";
 import axios from "axios";
 import { sortBy, reverse } from "lodash";
 import "bootstrap/dist/css/bootstrap.min.css";
+import SearchForm from "components/SearchForm";
+import SortButtons from "components/SortButtons";
+import Profile from "components/Profile";
 
 const sortByProperty = (obj, param, func) =>
   func(reverse(sortBy(obj, [param])));
 
 const App = () => {
-  const [user, setUser] = useState("");
   const [profile, setProfile] = useState([]);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (user) => {
     await axios
       .get(`https://api.github.com/orgs/${user}/repos`)
       .then((r) => {
@@ -31,7 +25,6 @@ const App = () => {
         setError(error);
         setProfile([]);
       });
-    setUser("");
   };
 
   const sortAlpha = () => sortByProperty(profile, "name", setProfile);
@@ -41,62 +34,11 @@ const App = () => {
 
   return (
     <div className="container mt-3">
-      <Form inline>
-        <FormControl
-          type="text"
-          placeholder="Search"
-          className="mr-sm-2"
-          value={user}
-          onChange={(event) => setUser(event.target.value)}
-        />
-        <Button variant="outline-success" onClick={handleSubmit}>
-          Search
-        </Button>
-      </Form>
-
+      <SearchForm handleSubmit={handleSubmit} />
       {profile.length > 0 && (
-        <div className="mt-2">
-          <label>Sort by</label>
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <Button variant="outline-secondary" onClick={sortAlpha}>
-                Alphabetical
-              </Button>
-              <Button variant="outline-secondary" onClick={sortDefault}>
-                By Most Stars
-              </Button>
-            </InputGroup.Prepend>
-          </InputGroup>
-        </div>
+        <SortButtons sortAlpha={sortAlpha} sortDefault={sortDefault} />
       )}
-
-      <Table striped bordered hover>
-        <thead>
-          {profile.length > 0 && (
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Total stargazers</th>
-              <th>Total watchers</th>
-              <th>Link</th>
-            </tr>
-          )}
-        </thead>
-        <tbody>
-          {profile &&
-            profile.map((row) => (
-              <tr key={row.id}>
-                <td>{row.name}</td>
-                <td>{row.description}</td>
-                <td>{row.stargazers_count}</td>
-                <td>{row.watchers_count}</td>
-                <td>
-                  <a href={row.url}>{row.url}</a>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
+      <Profile profile={profile} />
       {error && (
         <Alert variant="danger">
           <Alert.Heading>No Organization found!</Alert.Heading>

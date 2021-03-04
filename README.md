@@ -12,9 +12,4 @@ sort by number of stars default
 ### `yarn test`
 
 
-
-
-
 basic version
-
-improvemets to do: separate components, etc
