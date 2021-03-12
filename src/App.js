@@ -28,7 +28,6 @@ const App = () => {
   };
 
   const sortAlpha = () => sortByProperty(profile, "name", setProfile);
-
   const sortDefault = () =>
     sortByProperty(profile, "stargazers_count", setProfile);
 
@@ -36,9 +35,11 @@ const App = () => {
     <div className="container mt-3">
       <SearchForm handleSubmit={handleSubmit} />
       {profile.length > 0 && (
-        <SortButtons sortAlpha={sortAlpha} sortDefault={sortDefault} />
+        <>
+          <SortButtons sortAlpha={sortAlpha} sortDefault={sortDefault} />
+          <Profile profile={profile} />
+        </>
       )}
-      <Profile profile={profile} />
       {error && (
         <Alert variant="danger">
           <Alert.Heading>No Organization found!</Alert.Heading>
