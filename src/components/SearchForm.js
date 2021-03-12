@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import {
-  Form,
-  FormControl,
-  Button,
-} from "react-bootstrap";
+import { Form, FormControl, Button } from "react-bootstrap";
+import { connect } from "react-redux";
+import { fetchProfile } from "store/actions/gitActions";
 
-export default function SearchForm({ handleSubmit }) {
+export function SearchForm({ fetchProfile }) {
   const [user, setUser] = useState("");
 
   const submitForm = () => {
-    handleSubmit(user);
-    setUser('');
+    fetchProfile(user);
+    setUser("");
   };
 
   return (
@@ -28,3 +26,7 @@ export default function SearchForm({ handleSubmit }) {
     </Form>
   );
 }
+
+export default connect(null, {
+  fetchProfile,
+})(SearchForm);
