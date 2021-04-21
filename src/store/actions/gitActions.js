@@ -6,21 +6,19 @@ import {
   SORT_BY_STARS,
 } from "./types";
 
-export const fetchProfile = (user) => (dispatch) => {
-  axios
-    .get(`https://api.github.com/orgs/${user}/repos`)
-    .then((profile) =>
-      dispatch({
+export const fetchProfile = (user) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`https://api.github.com/orgs/${user}/repos`);
+    dispatch({
         type: FETCH_PROFILE,
-        payload: profile.data,
-      })
-    )
-    .catch((error) => {
+        payload: data,
+    });
+  } catch(error) {
       dispatch({
         type: FETCH_PROFILE_FAILURE,
         error,
       });
-    });
+    };
 };
 
 export const sortByName = (profile) => ({

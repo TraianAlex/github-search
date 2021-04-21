@@ -15,6 +15,4 @@ sort by number of stars default
 
 
 
-basic version
-
-improvemets to do: separate components, etc
+basic
