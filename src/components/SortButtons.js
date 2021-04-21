@@ -24,7 +24,11 @@ export function SortButtons({ profile, sortByName, sortByStars }) {
   );
 }
 
-export default connect(null, {
+const mapStateToProps = (state) => ({
+  profile: state.profile.profile,
+});
+
+export default connect(mapStateToProps, {
   sortByName,
   sortByStars,
 })(SortButtons);
