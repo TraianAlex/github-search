@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Form, FormControl, Button } from "react-bootstrap";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchProfile } from "store/actions/gitActions";
 
-export function SearchForm({ fetchProfile }) {
+export function SearchForm() {
   const [user, setUser] = useState("");
+  const dispatch = useDispatch();
 
   const submitForm = () => {
-    fetchProfile(user);
+    dispatch(fetchProfile(user));
     setUser("");
   };
 
@@ -27,6 +28,4 @@ export function SearchForm({ fetchProfile }) {
   );
 }
 
-export default connect(null, {
-  fetchProfile,
-})(SearchForm);
+export default SearchForm;

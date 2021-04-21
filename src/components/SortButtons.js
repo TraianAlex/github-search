@@ -1,11 +1,15 @@
+// @ts-nocheck
 import React from "react";
 import { Button, InputGroup } from "react-bootstrap";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 import { sortByName, sortByStars } from "store/actions/gitActions";
 
-export function SortButtons({ profile, sortByName, sortByStars }) {
-  const sortAlpha = () => sortByName(profile);
-  const sortDefault = () => sortByStars(profile);
+export function SortButtons() {
+  const dispatch = useDispatch();
+  const profile = useSelector(state => state.profile.profile);
+  
+  const sortAlpha = () => dispatch(sortByName(profile));
+  const sortDefault = () => dispatch(sortByStars(profile));
 
   return (
     <div className="mt-2">
@@ -24,7 +28,4 @@ export function SortButtons({ profile, sortByName, sortByStars }) {
   );
 }
 
-export default connect(null, {
-  sortByName,
-  sortByStars,
-})(SortButtons);
+export default SortButtons;
