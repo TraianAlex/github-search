@@ -2,13 +2,18 @@
 import React from "react";
 import { Table, Alert } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import Loader from "./Loader";
 import SortButtons from "./SortButtons";
 
 export function Profile() {
-  const profile = useSelector(state => state.profile.profile);
+  const { profile, loading } = useSelector(state => state.profile);
   const error = profile.name === "Error" ? "No Organization Found" : null;
 
-  return !error && profile.length > 0 ? (
+  return loading ? <Loader /> : error ? (
+    <Alert variant="danger">
+      <Alert.Heading>{error}</Alert.Heading>
+    </Alert>
+  ) : !error && profile.length > 0 ? (
     <>
       <SortButtons />
       <Table striped bordered hover>
@@ -36,10 +41,6 @@ export function Profile() {
         </tbody>
       </Table>
     </>
-  ) : error ? (
-    <Alert variant="danger">
-      <Alert.Heading>{error}</Alert.Heading>
-    </Alert>
   ) : null;
 }
 

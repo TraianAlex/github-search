@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   FETCH_PROFILE,
+  FETCH_PROFILE_SUCCESS,
   FETCH_PROFILE_FAILURE,
   SORT_BY_NAME,
   SORT_BY_STARS,
@@ -8,9 +9,10 @@ import {
 
 export const fetchProfile = (user) => async (dispatch) => {
   try {
+    dispatch({ type: FETCH_PROFILE });
     const { data } = await axios.get(`https://api.github.com/orgs/${user}/repos`);
     dispatch({
-        type: FETCH_PROFILE,
+        type: FETCH_PROFILE_SUCCESS,
         payload: data,
     });
   } catch(error) {
