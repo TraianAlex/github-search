@@ -1,16 +1,12 @@
-import React, { useState } from "react";
-import { Form, FormControl, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { fetchProfile } from "store/actions/gitActions";
+// @ts-nocheck
+import React from 'react';
+import { Form, FormControl, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser, fetchProfile } from 'store/actions/gitActions';
 
 export function SearchForm() {
-  const [user, setUser] = useState("");
+  const user = useSelector((state) => state.profile.user);
   const dispatch = useDispatch();
-
-  const submitForm = () => {
-    dispatch(fetchProfile(user));
-    setUser("");
-  };
 
   return (
     <Form inline>
@@ -19,9 +15,12 @@ export function SearchForm() {
         placeholder="Search"
         className="mr-sm-2"
         value={user}
-        onChange={(event) => setUser(event.target.value)}
+        onChange={({ target }) => dispatch(setUser(target.value))}
       />
-      <Button variant="outline-success" onClick={submitForm}>
+      <Button
+        variant="outline-success"
+        onClick={() => dispatch(fetchProfile(user))}
+      >
         Search
       </Button>
     </Form>
