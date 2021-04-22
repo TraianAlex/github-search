@@ -10,12 +10,12 @@ import {
 
 const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
 
-export const profileReducer = (state, action) => {
-  switch (action.type) {
+export const profileReducer = (state, { type, payload }) => {
+  switch (type) {
     case SET_USER:
       return {
         ...state,
-        user: action.payload,
+        user: payload,
         loading: false,
         profile: [],
         error: '',
@@ -32,26 +32,26 @@ export const profileReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        profile: sortByProperty(action.payload, ['stargazers_count']),
+        profile: sortByProperty(payload, ['stargazers_count']),
       };
     case SORT_BY_NAME:
       return {
         ...state,
         loading: false,
-        profile: sortByProperty(action.payload, ['name']),
+        profile: sortByProperty(payload, ['name']),
       };
     case SORT_BY_STARS:
       return {
         ...state,
         loading: false,
-        profile: sortByProperty(action.payload, ['stargazers_count']),
+        profile: sortByProperty(payload, ['stargazers_count']),
       };
     case FETCH_PROFILE_FAILURE:
       return {
         ...state,
         loading: false,
         profile: [],
-        error: action.payload,
+        error: payload,
       };
     default:
       return state;
