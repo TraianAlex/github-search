@@ -1,16 +1,9 @@
-import React, { useState } from "react";
-import { Form, FormControl, Button } from "react-bootstrap";
-import { connect } from "react-redux";
-import { fetchProfile } from "store/actions/gitActions";
+import React from 'react';
+import { Form, FormControl, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { fetchProfile, setUser } from 'store/actions/gitActions';
 
-export function SearchForm({ fetchProfile }) {
-  const [user, setUser] = useState("");
-
-  const submitForm = () => {
-    fetchProfile(user);
-    setUser("");
-  };
-
+export function SearchForm({ user, setUser, fetchProfile }) {
   return (
     <Form inline>
       <FormControl
@@ -18,15 +11,20 @@ export function SearchForm({ fetchProfile }) {
         placeholder="Search"
         className="mr-sm-2"
         value={user}
-        onChange={(event) => setUser(event.target.value)}
+        onChange={({ target }) => setUser(target.value)}
       />
-      <Button variant="outline-success" onClick={submitForm}>
+      <Button variant="outline-success" onClick={() => fetchProfile(user)}>
         Search
       </Button>
     </Form>
   );
 }
 
-export default connect(null, {
+const mapStateToProps = (state) => ({
+  user: state.profile.user,
+});
+
+export default connect(mapStateToProps, {
   fetchProfile,
+  setUser,
 })(SearchForm);

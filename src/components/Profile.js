@@ -1,13 +1,14 @@
-import React from "react";
-import { Table, Alert } from "react-bootstrap";
-import { connect } from "react-redux";
-import Loader from "./Loader";
-import SortButtons from "./SortButtons";
+import React from 'react';
+import { Table, Alert } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import Loader from './Loader';
+import SortButtons from './SortButtons';
 
-export function Profile({ profile, loading }) {
-  const error = profile.name === "Error" ? "No Organization Found" : null;
+export function Profile({ profile, loading, error }) {
 
-  return loading ? <Loader /> : error ? (
+  return loading ? (
+    <Loader />
+  ) : error ? (
     <Alert variant="danger">
       <Alert.Heading>{error}</Alert.Heading>
     </Alert>
@@ -45,6 +46,7 @@ export function Profile({ profile, loading }) {
 const mapStateToProps = (state) => ({
   loading: state.profile.loading,
   profile: state.profile.profile,
+  error: state.profile.error,
 });
 
 export default connect(mapStateToProps)(Profile);
