@@ -1,15 +1,16 @@
 // @ts-nocheck
-import React from "react";
-import { Table, Alert } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import Loader from "./Loader";
-import SortButtons from "./SortButtons";
+import React, { useContext } from 'react';
+import { Table, Alert } from 'react-bootstrap';
+import GitContext from '../store/context';
+import Loader from './Loader';
+import SortButtons from './SortButtons';
 
 export function Profile() {
-  const { profile, loading } = useSelector(state => state.profile);
-  const error = profile.name === "Error" ? "No Organization Found" : null;
+  const { profile, loading, error } = useContext(GitContext);
 
-  return loading ? <Loader /> : error ? (
+  return loading ? (
+    <Loader />
+  ) : error ? (
     <Alert variant="danger">
       <Alert.Heading>{error}</Alert.Heading>
     </Alert>

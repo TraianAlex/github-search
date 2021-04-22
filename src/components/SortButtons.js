@@ -1,15 +1,13 @@
 // @ts-nocheck
-import React from "react";
-import { Button, InputGroup } from "react-bootstrap";
-import { useSelector, useDispatch } from 'react-redux';
-import { sortByName, sortByStars } from "store/actions/gitActions";
+import React, { useContext } from 'react';
+import { Button, InputGroup } from 'react-bootstrap';
+import GitContext from '../store/context';
 
 export function SortButtons() {
-  const dispatch = useDispatch();
-  const profile = useSelector(state => state.profile.profile);
-  
-  const sortAlpha = () => dispatch(sortByName(profile));
-  const sortDefault = () => dispatch(sortByStars(profile));
+  const { profile, sortByName, sortByStars } = useContext(GitContext);
+
+  const sortAlpha = () => sortByName(profile);
+  const sortDefault = () => sortByStars(profile);
 
   return (
     <div className="mt-2">
