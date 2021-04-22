@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SearchForm from "components/SearchForm";
 import SortButtons from "components/SortButtons";
 import Profile from "components/Profile";
+import Loader from "components/Loader";
 
 const sortByProperty = (obj, param, func) =>
   func(reverse(sortBy(obj, [param])));
@@ -13,18 +14,19 @@ const sortByProperty = (obj, param, func) =>
 const App = () => {
   const [profile, setProfile] = useState([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (user) => {
-    await axios
-      .get(`https://api.github.com/orgs/${user}/repos`)
-      .then((r) => {
-        sortByProperty(r.data, "stargazers_count", setProfile);
-        setError("");
-      })
-      .catch((error) => {
-        setError(error);
-        setProfile([]);
-      });
+    setLoading(true);
+    try {
+      const { data } = await axios.get(`https://api.github.com/orgs/${user}/repos`);
+      sortByProperty(data, "stargazers_count", setProfile);
+      setError("");
+    } catch(error) {
+      setError(error);
+      setProfile([]);
+    }
+    setLoading(false);
   };
 
   const sortAlpha = () => sortByProperty(profile, "name", setProfile);
@@ -34,6 +36,7 @@ const App = () => {
   return (
     <div className="container mt-3">
       <SearchForm handleSubmit={handleSubmit} />
+      {loading && <Loader />}
       {profile.length > 0 && (
         <>
           <SortButtons sortAlpha={sortAlpha} sortDefault={sortDefault} />
