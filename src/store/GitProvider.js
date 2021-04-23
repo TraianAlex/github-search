@@ -57,20 +57,9 @@ export const GitProvider = ({ children }) => {
 
   const setUser = (user) => dispatch({ type: SET_USER, payload: user });
 
-  const { user, loading, profile, error } = state;
-
   return (
     <GitContext.Provider
-      value={{
-        user,
-        loading,
-        profile,
-        error,
-        fetchProfile,
-        sortByName,
-        sortByStars,
-        setUser,
-      }}
+      value={{ ...state, fetchProfile, sortByName, sortByStars, setUser }}
     >
       {children}
     </GitContext.Provider>
