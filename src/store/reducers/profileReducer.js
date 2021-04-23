@@ -25,6 +25,7 @@ export const profileReducer = (state = initialState, action) => {
         user: action.payload,
         loading: false,
         profile: [],
+        error: '',
       };
     case FETCH_PROFILE:
       return {
@@ -32,6 +33,7 @@ export const profileReducer = (state = initialState, action) => {
         user: '',
         loading: true,
         profile: [],
+        error: '',
       };
     case FETCH_PROFILE_SUCCESS:
       return {
