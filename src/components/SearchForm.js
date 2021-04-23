@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Form, FormControl, Button } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Form, FormControl, Button } from 'react-bootstrap';
 
 export default function SearchForm({ handleSubmit }) {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState('');
 
   const submitForm = (event) => {
     event.preventDefault();
     handleSubmit(user);
-    setUser("");
+    setUser('');
   };
 
   return (

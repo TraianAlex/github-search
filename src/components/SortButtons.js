@@ -1,7 +1,7 @@
-import React from "react";
-import { Button, InputGroup } from "react-bootstrap";
+import React from 'react';
+import { Button, InputGroup } from 'react-bootstrap';
 
-export default function SortButtons({sortAlpha, sortDefault}) {
+export default function SortButtons({ sortAlpha, sortDefault }) {
   return (
     <div className="mt-2">
       <label>Sort by</label>

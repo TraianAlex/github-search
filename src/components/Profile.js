@@ -1,5 +1,5 @@
-import React from "react";
-import { Table } from "react-bootstrap";
+import React from 'react';
+import { Table } from 'react-bootstrap';
 
 export default function Profile({ profile }) {
   return (
