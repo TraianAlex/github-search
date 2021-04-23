@@ -17,7 +17,7 @@ export default function SearchForm({ handleSubmit }) {
         placeholder="Search"
         className="mr-sm-2"
         value={user}
-        onChange={(event) => setUser(event.target.value)}
+        onChange={({ target }) => setUser(target.value)}
       />
       <Button variant="outline-success" onClick={submitForm}>
         Search
