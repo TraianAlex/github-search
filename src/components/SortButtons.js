@@ -1,10 +1,9 @@
-// @ts-nocheck
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button, InputGroup } from 'react-bootstrap';
-import GitContext from '../store/context';
+import { useProfile } from '../store/useProfile';
 
 export function SortButtons() {
-  const { profile, sortByName, sortByStars } = useContext(GitContext);
+  const { profile, sortByName, sortByStars } = useProfile();
 
   const sortAlpha = () => sortByName(profile);
   const sortDefault = () => sortByStars(profile);

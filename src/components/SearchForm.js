@@ -1,10 +1,9 @@
-// @ts-nocheck
-import React, { useContext } from 'react';
+import React from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
-import GitContext from '../store/context';
+import { useProfile } from '../store/useProfile';
 
 export function SearchForm() {
-  const { user, setUser, fetchProfile } = useContext(GitContext);
+  const { user, setUser, fetchProfile } = useProfile();
 
   const submitForm = () => fetchProfile(user);
 

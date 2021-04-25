@@ -1,12 +1,11 @@
-// @ts-nocheck
-import React, { useContext } from 'react';
+import React from 'react';
 import { Table, Alert } from 'react-bootstrap';
-import GitContext from '../store/context';
 import Loader from './Loader';
 import SortButtons from './SortButtons';
+import { useProfile } from '../store/useProfile';
 
 export function Profile() {
-  const { profile, loading, error } = useContext(GitContext);
+  const { profile, loading, error } = useProfile();
 
   return loading ? (
     <Loader />
