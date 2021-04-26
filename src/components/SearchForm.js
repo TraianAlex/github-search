@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { fetchProfile, setUser } from 'store/actions/gitActions';
 
 export function SearchForm({ user, setUser, fetchProfile }) {
+  const onSubmit = () => fetchProfile(user);
+
   return (
     <Form inline>
       <FormControl
@@ -13,7 +15,7 @@ export function SearchForm({ user, setUser, fetchProfile }) {
         value={user}
         onChange={({ target }) => setUser(target.value)}
       />
-      <Button variant="outline-success" onClick={() => fetchProfile(user)}>
+      <Button variant="outline-success" onClick={onSubmit}>
         Search
       </Button>
     </Form>
