@@ -7,6 +7,7 @@ import { setUser, fetchProfile } from 'store/actions/gitActions';
 export function SearchForm() {
   const user = useSelector((state) => state.profile.user);
   const dispatch = useDispatch();
+  const onSubmit = () => dispatch(fetchProfile(user));
 
   return (
     <Form inline>
@@ -17,10 +18,7 @@ export function SearchForm() {
         value={user}
         onChange={({ target }) => dispatch(setUser(target.value))}
       />
-      <Button
-        variant="outline-success"
-        onClick={() => dispatch(fetchProfile(user))}
-      >
+      <Button variant="outline-success" onClick={onSubmit}>
         Search
       </Button>
     </Form>
