@@ -23,13 +23,9 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
-        loading: false,
-        profile: [],
-        error: '',
       };
     case FETCH_PROFILE:
       return {
-        ...state,
         user: '',
         loading: true,
         profile: [],
@@ -37,28 +33,21 @@ export const profileReducer = (state = initialState, action) => {
       };
     case FETCH_PROFILE_SUCCESS:
       return {
-        ...state,
         loading: false,
         profile: sortByProperty(action.payload, ['stargazers_count']),
       };
     case SORT_BY_NAME:
       return {
-        ...state,
-        loading: false,
         profile: sortByProperty(action.payload, ['name']),
       };
     case SORT_BY_STARS:
       return {
-        ...state,
-        loading: false,
         profile: sortByProperty(action.payload, ['stargazers_count']),
       };
     case FETCH_PROFILE_FAILURE:
       return {
-        ...state,
         loading: false,
-        profile: [],
-        error: action.payload
+        error: action.payload,
       };
     default:
       return state;
