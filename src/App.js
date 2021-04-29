@@ -5,10 +5,20 @@ import SearchForm from 'components/SearchForm';
 import SortButtons from 'components/SortButtons';
 import Profile from 'components/Profile';
 import Loader from 'components/Loader';
-import { useProfile } from 'hooks/useProfile';
+import { useProfile } from 'hooks/useProfile2';
 
 const App = () => {
-  const {loading, profile, error, handleSubmit, sortDefault, sortAlpha} = useProfile();
+  const {
+    loading,
+    profile,
+    error,
+    handleSubmit,
+    sortByName,
+    sortByStars,
+  } = useProfile();
+
+  const sortAlpha = () => sortByName(profile);
+  const sortDefault = () => sortByStars(profile);
 
   return (
     <div className="container mt-3">
@@ -22,7 +32,7 @@ const App = () => {
       )}
       {error && (
         <Alert variant="danger">
-          <Alert.Heading>No Organization found!</Alert.Heading>
+          <Alert.Heading>{error}</Alert.Heading>
         </Alert>
       )}
     </div>
