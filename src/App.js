@@ -12,7 +12,7 @@ const App = () => {
     loading,
     profile,
     error,
-    handleSubmit,
+    fetchProfile,
     sortByName,
     sortByStars,
   } = useProfile();
@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <div className="container mt-3">
-      <SearchForm handleSubmit={handleSubmit} />
+      <SearchForm handleSubmit={fetchProfile} />
       {loading && <Loader />}
       {profile.length > 0 && (
         <>

@@ -3,11 +3,11 @@ import { useReducer } from 'react';
 import axios from 'axios';
 import { sortBy, reverse } from 'lodash';
 
-export const FETCH_PROFILE = 'FETCH_PROFILE';
-export const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
-export const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
-export const SORT_BY_NAME = 'SORT_BY_NAME';
-export const SORT_BY_STARS = 'SORT_BY_STARS';
+const FETCH_PROFILE = 'FETCH_PROFILE';
+const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
+const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
+const SORT_BY_NAME = 'SORT_BY_NAME';
+const SORT_BY_STARS = 'SORT_BY_STARS';
 
 const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
 
@@ -55,7 +55,7 @@ export const useProfile = () => {
   const [state, dispatch] = useReducer(profileReducer, initialState);
   const { profile, loading, error } = state;
 
-  const handleSubmit = async (user) => {
+  const fetchProfile = async (user) => {
     dispatch({ type: FETCH_PROFILE, payload: true });
     try {
       const { data } = await axios.get(
@@ -75,8 +75,16 @@ export const useProfile = () => {
 
   const sortByName = (profile) =>
     dispatch({ type: SORT_BY_NAME, payload: profile });
+
   const sortByStars = (profile) =>
     dispatch({ type: SORT_BY_STARS, payload: profile });
 
-  return { profile, error, loading, handleSubmit, sortByName, sortByStars };
+  return {
+    profile,
+    error,
+    loading,
+    fetchProfile,
+    sortByName,
+    sortByStars,
+  };
 };

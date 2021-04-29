@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 
 export default function SearchForm({ handleSubmit }) {
-  const [user, setUser] = useState('');
+  const userInput = useRef(null);
 
   const submitForm = (event) => {
     event.preventDefault();
-    handleSubmit(user);
-    setUser('');
+    handleSubmit(userInput.current.value);
+    userInput.current.value = '';
   };
 
   return (
@@ -16,8 +16,7 @@ export default function SearchForm({ handleSubmit }) {
         type="text"
         placeholder="Search"
         className="mr-sm-2"
-        value={user}
-        onChange={({ target }) => setUser(target.value)}
+        ref={userInput}
       />
       <Button variant="outline-success" onClick={submitForm}>
         Search
