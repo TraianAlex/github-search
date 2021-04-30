@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { sortByName, sortByStars } from 'store/actions/gitActions';
 
 export function SortButtons() {
-  const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile.profile);
+  const dispatch = useDispatch();
   const sortAlpha = () => dispatch(sortByName(profile));
   const sortDefault = () => dispatch(sortByStars(profile));
 
