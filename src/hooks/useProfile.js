@@ -6,11 +6,12 @@ const sortByProperty = (obj, param, func) =>
   func(reverse(sortBy(obj, [param])));
 
 export const useProfile = () => {
+  const [user, setUser] = useState('');
   const [profile, setProfile] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (user) => {
+  const fetchProfile = async (user) => {
     setLoading(true);
     try {
       const { data } = await axios.get(
@@ -18,17 +19,30 @@ export const useProfile = () => {
       );
       sortByProperty(data, 'stargazers_count', setProfile);
       setError('');
+      setUser('');
     } catch (error) {
-      setError(error);
+      setError(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+      );
       setProfile([]);
     }
     setLoading(false);
   };
 
-  const sortAlpha = () => sortByProperty(profile, 'name', setProfile);
-  const sortDefault = () =>
+  const sortByName = () => sortByProperty(profile, 'name', setProfile);
+  const sortByStars = () =>
     sortByProperty(profile, 'stargazers_count', setProfile);
 
-  return {profile, error, loading, handleSubmit, sortAlpha, sortDefault};
-}
-
+  return {
+    user,
+    profile,
+    error,
+    loading,
+    setUser,
+    fetchProfile,
+    sortByName,
+    sortByStars,
+  };
+};

@@ -8,10 +8,12 @@ const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
 const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
 const SORT_BY_NAME = 'SORT_BY_NAME';
 const SORT_BY_STARS = 'SORT_BY_STARS';
+const SET_USER = 'SET_USER';
 
 const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
 
 const initialState = {
+  user: '',
   profile: [],
   loading: false,
   error: '',
@@ -19,9 +21,15 @@ const initialState = {
 
 const profileReducer = (state, action) => {
   switch (action.type) {
+    case SET_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
     case FETCH_PROFILE:
       return {
         ...state,
+        user: '',
         loading: true,
         profile: [],
         error: '',
@@ -34,14 +42,17 @@ const profileReducer = (state, action) => {
       };
     case SORT_BY_NAME:
       return {
+        ...state,
         profile: sortByProperty(action.payload, ['name']),
       };
     case SORT_BY_STARS:
       return {
+        ...state,
         profile: sortByProperty(action.payload, ['stargazers_count']),
       };
     case FETCH_PROFILE_FAILURE:
       return {
+        user: '',
         loading: false,
         profile: [],
         error: action.payload,
@@ -53,7 +64,7 @@ const profileReducer = (state, action) => {
 
 export const useProfile = () => {
   const [state, dispatch] = useReducer(profileReducer, initialState);
-  const { profile, loading, error } = state;
+  const { user, profile, loading, error } = state;
 
   const fetchProfile = async (user) => {
     dispatch({ type: FETCH_PROFILE, payload: true });
@@ -79,10 +90,14 @@ export const useProfile = () => {
   const sortByStars = (profile) =>
     dispatch({ type: SORT_BY_STARS, payload: profile });
 
+  const setUser = (user) => dispatch({ type: SET_USER, payload: user });
+
   return {
+    user,
     profile,
     error,
     loading,
+    setUser,
     fetchProfile,
     sortByName,
     sortByStars,

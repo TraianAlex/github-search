@@ -9,20 +9,28 @@ import { useProfile } from 'hooks/useProfile2';
 
 const App = () => {
   const {
+    user,
     loading,
     profile,
     error,
+    setUser,
     fetchProfile,
     sortByName,
     sortByStars,
   } = useProfile();
+
+  const handleSubmit = () => fetchProfile(user);
 
   const sortAlpha = () => sortByName(profile);
   const sortDefault = () => sortByStars(profile);
 
   return (
     <div className="container mt-3">
-      <SearchForm handleSubmit={fetchProfile} />
+      <SearchForm
+        user={user}
+        onUserChange={({ target }) => setUser(target.value)}
+        handleSubmit={handleSubmit}
+      />
       {loading && <Loader />}
       {profile.length > 0 && (
         <>

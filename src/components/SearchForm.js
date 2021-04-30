@@ -1,24 +1,17 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Form, FormControl, Button } from 'react-bootstrap';
 
-export default function SearchForm({ handleSubmit }) {
-  const userInput = useRef(null);
-
-  const submitForm = (event) => {
-    event.preventDefault();
-    handleSubmit(userInput.current.value);
-    userInput.current.value = '';
-  };
-
+export default function SearchForm({ user, onUserChange, handleSubmit }) {
   return (
     <Form inline>
       <FormControl
         type="text"
         placeholder="Search"
         className="mr-sm-2"
-        ref={userInput}
+        value={user}
+        onChange={onUserChange}
       />
-      <Button variant="outline-success" onClick={submitForm}>
+      <Button variant="outline-success" onClick={handleSubmit}>
         Search
       </Button>
     </Form>
