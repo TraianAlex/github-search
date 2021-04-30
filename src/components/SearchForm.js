@@ -6,6 +6,7 @@ export function SearchForm() {
   const { user, setUser, fetchProfile } = useProfile();
 
   const submitForm = () => fetchProfile(user);
+  const onChangeHandler = ({ target }) => setUser(target.value);
 
   return (
     <Form inline>
@@ -14,7 +15,7 @@ export function SearchForm() {
         placeholder="Search"
         className="mr-sm-2"
         value={user}
-        onChange={({ target }) => setUser(target.value)}
+        onChange={onChangeHandler}
       />
       <Button variant="outline-success" onClick={submitForm}>
         Search

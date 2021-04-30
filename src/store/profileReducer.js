@@ -16,13 +16,9 @@ export const profileReducer = (state, { type, payload }) => {
       return {
         ...state,
         user: payload,
-        loading: false,
-        profile: [],
-        error: '',
       };
     case FETCH_PROFILE:
       return {
-        ...state,
         user: '',
         loading: true,
         profile: [],
