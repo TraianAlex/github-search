@@ -3,7 +3,6 @@ import { Card, Col, Row } from 'react-bootstrap';
 
 export const ProfileCard = ({ row }) => (
   <Card
-    key={row.id}
     style={{ width: '16.5rem', minHeight: '220px', fontSize: '0.7rem' }}
     className="m-3 shadow"
   >

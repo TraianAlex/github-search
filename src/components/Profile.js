@@ -5,7 +5,7 @@ import { ProfileTable } from './profileTable';
 export default function Profile({ profile, sortAlpha, sortDefault, display }) {
   return display ? (
     profile.map((row, index) => (
-      <div className="d-inline-block">
+      <div key={row.id} className="d-inline-block">
         <ProfileCard row={row} />
       </div>
     ))
