@@ -1,31 +1,19 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { ProfileCard } from './ProfileCard';
+import { ProfileTable } from './profileTable';
 
-export default function Profile({ profile }) {
-  return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Total stargazers</th>
-          <th>Total watchers</th>
-          <th>Link</th>
-        </tr>
-      </thead>
-      <tbody>
-        {profile.map((row) => (
-          <tr key={row.id}>
-            <td>{row.name}</td>
-            <td>{row.description}</td>
-            <td>{row.stargazers_count}</td>
-            <td>{row.watchers_count}</td>
-            <td>
-              <a href={row.url}>{row.url}</a>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+export default function Profile({ profile, sortAlpha, sortDefault, display }) {
+  return display ? (
+    profile.map((row, index) => (
+      <div className="d-inline-block">
+        <ProfileCard row={row} />
+      </div>
+    ))
+  ) : (
+    <ProfileTable
+      profile={profile}
+      sortAlpha={sortAlpha}
+      sortDefault={sortDefault}
+    />
   );
 }

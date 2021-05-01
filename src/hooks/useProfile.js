@@ -10,6 +10,7 @@ export const useProfile = () => {
   const [profile, setProfile] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isCard, setIsCard] = useState(true);
 
   const fetchProfile = async (user) => {
     setLoading(true);
@@ -34,15 +35,18 @@ export const useProfile = () => {
   const sortByName = () => sortByProperty(profile, 'name', setProfile);
   const sortByStars = () =>
     sortByProperty(profile, 'stargazers_count', setProfile);
+  const toggleView = () => setIsCard(!isCard);
 
   return {
     user,
     profile,
     error,
     loading,
+    isCard,
     setUser,
     fetchProfile,
     sortByName,
     sortByStars,
+    toggleView,
   };
 };

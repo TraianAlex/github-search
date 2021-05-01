@@ -9,6 +9,7 @@ const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
 const SORT_BY_NAME = 'SORT_BY_NAME';
 const SORT_BY_STARS = 'SORT_BY_STARS';
 const SET_USER = 'SET_USER';
+const TOGGLE_VIEW = 'TOGGLE_VIEW';
 
 const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
 
@@ -17,6 +18,7 @@ const initialState = {
   profile: [],
   loading: false,
   error: '',
+  isCard: true,
 };
 
 const profileReducer = (state, action) => {
@@ -57,6 +59,11 @@ const profileReducer = (state, action) => {
         profile: [],
         error: action.payload,
       };
+    case TOGGLE_VIEW:
+      return {
+        ...state,
+        isCard: action.payload,
+      };
     default:
       return state;
   }
@@ -64,7 +71,7 @@ const profileReducer = (state, action) => {
 
 export const useProfile = () => {
   const [state, dispatch] = useReducer(profileReducer, initialState);
-  const { user, profile, loading, error } = state;
+  const { user, profile, loading, error, isCard } = state;
 
   const fetchProfile = async (user) => {
     dispatch({ type: FETCH_PROFILE, payload: true });
@@ -92,14 +99,19 @@ export const useProfile = () => {
 
   const setUser = (user) => dispatch({ type: SET_USER, payload: user });
 
+  const toggleView = (isCard) =>
+    dispatch({ type: TOGGLE_VIEW, payload: !isCard });
+
   return {
     user,
     profile,
     error,
     loading,
+    isCard,
     setUser,
     fetchProfile,
     sortByName,
     sortByStars,
+    toggleView,
   };
 };
