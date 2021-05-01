@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.invisible-button {
+  border: none;
+  padding: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: inherit;
+  background-color: transparent;
+  color: #000;
+}

@@ -6,13 +6,15 @@ import {
   SORT_BY_NAME,
   SORT_BY_STARS,
   SET_USER,
+  TOGGLE_VIEW,
 } from '../actions/types';
 
 const initialState = {
   user: '',
   loading: false,
   profile: [],
-  error: ''
+  error: '',
+  isCard: true,
 };
 
 const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
@@ -59,6 +61,11 @@ export const profileReducer = (state = initialState, action) => {
         loading: false,
         profile: [],
         error: action.payload
+      };
+    case TOGGLE_VIEW:
+      return {
+        ...state,
+        isCard: action.payload,
       };
     default:
       return state;

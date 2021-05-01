@@ -6,6 +6,7 @@ import {
   SORT_BY_NAME,
   SORT_BY_STARS,
   SET_USER,
+  TOGGLE_VIEW,
 } from './types';
 
 export const fetchProfile = (user) => async (dispatch) => {
@@ -40,3 +41,5 @@ export const sortByStars = (profile) => ({
 });
 
 export const setUser = (user) => ({ type: SET_USER, payload: user });
+
+export const toggleView = (isCard) => ({ type: TOGGLE_VIEW, payload: !isCard });

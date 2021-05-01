@@ -1,10 +1,14 @@
 import React from 'react';
-import { Table, Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { toggleView } from 'store/actions/gitActions';
 import Loader from './Loader';
+import { ProfileCard } from './ProfileCard';
+import ProfileTable from './ProfileTable';
 import SortButtons from './SortButtons';
 
-export function Profile({ profile, loading, error }) {
+const Profile = ({ profile, loading, error, isCard, toggleView }) => {
+  const changeView = () => toggleView(isCard);
 
   return loading ? (
     <Loader />
@@ -14,39 +18,35 @@ export function Profile({ profile, loading, error }) {
     </Alert>
   ) : !error && profile.length > 0 ? (
     <>
-      <SortButtons />
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Total stargazers</th>
-            <th>Total watchers</th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          {profile.map((row) => (
-            <tr key={row.id}>
-              <td>{row.name}</td>
-              <td>{row.description}</td>
-              <td>{row.stargazers_count}</td>
-              <td>{row.watchers_count}</td>
-              <td>
-                <a href={row.url}>{row.url}</a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <div className="mt-4 mb-3 h5">
+        Listing repositories for the user "{profile[0].owner.login}": found{' '}
+        {profile.length} repositories
+        <span
+          className="clearfix float-right font-weight-light text-black-50"
+          onClick={changeView}
+        >
+          Toggle view
+        </span>
+      </div>
+      {isCard && <SortButtons />}
+      {isCard ? (
+        profile.map((row) => (
+          <div className="d-inline-block">
+            <ProfileCard row={row} />
+          </div>
+        ))
+      ) : (
+        <ProfileTable />
+      )}
     </>
   ) : null;
-}
+};
 
 const mapStateToProps = (state) => ({
   loading: state.profile.loading,
   profile: state.profile.profile,
   error: state.profile.error,
+  isCard: state.profile.isCard,
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, { toggleView })(Profile);
