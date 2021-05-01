@@ -31,7 +31,7 @@ const Profile = ({ profile, loading, error, isCard, toggleView }) => {
       {isCard && <SortButtons />}
       {isCard ? (
         profile.map((row) => (
-          <div className="d-inline-block">
+          <div key={row.id} className="d-inline-block">
             <ProfileCard row={row} />
           </div>
         ))
