@@ -1,11 +1,15 @@
 import React from 'react';
-import { Table, Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import Loader from './Loader';
 import SortButtons from './SortButtons';
 import { useProfile } from '../store/useProfile';
+import { ProfileCard } from './ProfileCard';
+import { ProfileTable } from './ProfileTable';
 
 export function Profile() {
-  const { profile, loading, error } = useProfile();
+  const { profile, loading, error, isCard, toggleView } = useProfile();
+
+  const changeView = () => toggleView(isCard);
 
   return loading ? (
     <Loader />
@@ -15,31 +19,26 @@ export function Profile() {
     </Alert>
   ) : !error && profile.length > 0 ? (
     <>
-      <SortButtons />
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Total stargazers</th>
-            <th>Total watchers</th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          {profile.map((row) => (
-            <tr key={row.id}>
-              <td>{row.name}</td>
-              <td>{row.description}</td>
-              <td>{row.stargazers_count}</td>
-              <td>{row.watchers_count}</td>
-              <td>
-                <a href={row.url}>{row.url}</a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <div className="mt-4 mb-3 h5">
+        Listing repositories for the user "{profile[0].owner.login}": found{' '}
+        {profile.length} repositories
+        <span
+          className="clearfix float-right font-weight-light text-black-50"
+          onClick={changeView}
+        >
+          Toggle view
+        </span>
+      </div>
+      {isCard && <SortButtons />}
+      {isCard ? (
+        profile.map((row) => (
+          <div key={row.id} className="d-inline-block">
+            <ProfileCard row={row} />
+          </div>
+        ))
+      ) : (
+        <ProfileTable />
+      )}
     </>
   ) : null;
 }

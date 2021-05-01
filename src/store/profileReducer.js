@@ -6,6 +6,7 @@ import {
   SORT_BY_NAME,
   SORT_BY_STARS,
   SET_USER,
+  TOGGLE_VIEW,
 } from './types';
 
 const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
@@ -19,6 +20,7 @@ export const profileReducer = (state, { type, payload }) => {
       };
     case FETCH_PROFILE:
       return {
+        ...state,
         user: '',
         loading: true,
         profile: [],
@@ -48,6 +50,11 @@ export const profileReducer = (state, { type, payload }) => {
         loading: false,
         profile: [],
         error: payload,
+      };
+    case TOGGLE_VIEW:
+      return {
+        ...state,
+        isCard: payload,
       };
     default:
       return state;

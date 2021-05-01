@@ -8,6 +8,7 @@ export const GitProvider = ({ children }) => {
     loading: false,
     profile: [],
     error: '',
+    isCard: true,
   };
 
   const [state, dispatch] = useReducer(profileReducer, initialState);

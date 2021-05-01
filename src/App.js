@@ -1,17 +1,18 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container } from 'react-bootstrap';
 import { GitProvider } from 'store/GitProvider';
 import SearchForm from 'components/SearchForm';
 import Profile from 'components/Profile';
 
 const App = () => {
   return (
-    <div className="container mt-3">
+    <Container>
       <GitProvider>
         <SearchForm />
         <Profile />
       </GitProvider>
-    </div>
+    </Container>
   );
 };
 

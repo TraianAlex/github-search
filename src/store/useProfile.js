@@ -8,6 +8,7 @@ import {
   SORT_BY_NAME,
   SORT_BY_STARS,
   SET_USER,
+  TOGGLE_VIEW,
 } from './types';
 
 export const useProfile = () => {
@@ -52,5 +53,7 @@ export const useProfile = () => {
 
   const setUser = (user) => dispatch({ type: SET_USER, payload: user });
 
-  return { ...state, fetchProfile, sortByName, sortByStars, setUser };
+  const toggleView = (isCard) => dispatch({ type: TOGGLE_VIEW, payload: !isCard });
+
+  return { ...state, fetchProfile, sortByName, sortByStars, setUser, toggleView };
 };
