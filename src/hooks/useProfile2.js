@@ -6,12 +6,9 @@ import { sortBy, reverse } from 'lodash';
 const FETCH_PROFILE = 'FETCH_PROFILE';
 const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
 const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
-const SORT_BY_NAME = 'SORT_BY_NAME';
-const SORT_BY_STARS = 'SORT_BY_STARS';
+const SORT_BY = 'SORT_BY';
 const SET_USER = 'SET_USER';
 const TOGGLE_VIEW = 'TOGGLE_VIEW';
-
-const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
 
 const initialState = {
   user: '',
@@ -40,17 +37,12 @@ const profileReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        profile: sortByProperty(action.payload, ['stargazers_count']),
+        profile: action.payload,
       };
-    case SORT_BY_NAME:
+    case SORT_BY:
       return {
         ...state,
-        profile: sortByProperty(action.payload, ['name']),
-      };
-    case SORT_BY_STARS:
-      return {
-        ...state,
-        profile: sortByProperty(action.payload, ['stargazers_count']),
+        profile: action.payload,
       };
     case FETCH_PROFILE_FAILURE:
       return {
@@ -69,6 +61,8 @@ const profileReducer = (state, action) => {
   }
 };
 
+const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
+
 export const useProfile = () => {
   const [state, dispatch] = useReducer(profileReducer, initialState);
   const { user, profile, loading, error, isCard } = state;
@@ -79,7 +73,10 @@ export const useProfile = () => {
       const { data } = await axios.get(
         `https://api.github.com/orgs/${user}/repos`,
       );
-      dispatch({ type: FETCH_PROFILE_SUCCESS, payload: data });
+      dispatch({
+        type: FETCH_PROFILE_SUCCESS,
+        payload: sortByProperty(data, ['stargazers_count']),
+      });
     } catch (error) {
       dispatch({
         type: FETCH_PROFILE_FAILURE,
@@ -92,10 +89,13 @@ export const useProfile = () => {
   };
 
   const sortByName = (profile) =>
-    dispatch({ type: SORT_BY_NAME, payload: profile });
+    dispatch({ type: SORT_BY, payload: sortByProperty(profile, ['name']) });
 
   const sortByStars = (profile) =>
-    dispatch({ type: SORT_BY_STARS, payload: profile });
+    dispatch({
+      type: SORT_BY,
+      payload: sortByProperty(profile, ['stargazers_count']),
+    });
 
   const setUser = (user) => dispatch({ type: SET_USER, payload: user });
 
