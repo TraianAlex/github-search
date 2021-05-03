@@ -1,15 +1,11 @@
-import { reverse, sortBy } from 'lodash';
 import {
   FETCH_PROFILE,
   FETCH_PROFILE_FAILURE,
   FETCH_PROFILE_SUCCESS,
-  SORT_BY_NAME,
-  SORT_BY_STARS,
+  SORT_BY,
   SET_USER,
   TOGGLE_VIEW,
 } from './types';
-
-const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
 
 export const profileReducer = (state, { type, payload }) => {
   switch (type) {
@@ -30,19 +26,13 @@ export const profileReducer = (state, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        profile: sortByProperty(payload, ['stargazers_count']),
+        profile: payload,
       };
-    case SORT_BY_NAME:
+    case SORT_BY:
       return {
         ...state,
         loading: false,
-        profile: sortByProperty(payload, ['name']),
-      };
-    case SORT_BY_STARS:
-      return {
-        ...state,
-        loading: false,
-        profile: sortByProperty(payload, ['stargazers_count']),
+        profile: payload,
       };
     case FETCH_PROFILE_FAILURE:
       return {

@@ -1,15 +1,17 @@
 import { useContext } from 'react';
 import axios from 'axios';
+import { reverse, sortBy } from 'lodash';
 import GitContext from './context';
 import {
   FETCH_PROFILE,
   FETCH_PROFILE_FAILURE,
   FETCH_PROFILE_SUCCESS,
-  SORT_BY_NAME,
-  SORT_BY_STARS,
+  SORT_BY,
   SET_USER,
   TOGGLE_VIEW,
 } from './types';
+
+const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
 
 export const useProfile = () => {
   const context = useContext(GitContext);
@@ -26,7 +28,7 @@ export const useProfile = () => {
       );
       dispatch({
         type: FETCH_PROFILE_SUCCESS,
-        payload: data,
+        payload: sortByProperty(data, ['stargazers_count']),
       });
     } catch (error) {
       dispatch({
@@ -41,19 +43,27 @@ export const useProfile = () => {
 
   const sortByName = (profile) =>
     dispatch({
-      type: SORT_BY_NAME,
-      payload: profile,
+      type: SORT_BY,
+      payload: sortByProperty(profile, ['name']),
     });
 
   const sortByStars = (profile) =>
     dispatch({
-      type: SORT_BY_STARS,
-      payload: profile,
+      type: SORT_BY,
+      payload: sortByProperty(profile, ['stargazers_count']),
     });
 
   const setUser = (user) => dispatch({ type: SET_USER, payload: user });
 
-  const toggleView = (isCard) => dispatch({ type: TOGGLE_VIEW, payload: !isCard });
+  const toggleView = (isCard) =>
+    dispatch({ type: TOGGLE_VIEW, payload: !isCard });
 
-  return { ...state, fetchProfile, sortByName, sortByStars, setUser, toggleView };
+  return {
+    ...state,
+    fetchProfile,
+    sortByName,
+    sortByStars,
+    setUser,
+    toggleView,
+  };
 };
