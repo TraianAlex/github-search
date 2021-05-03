@@ -1,7 +1,6 @@
 export const FETCH_PROFILE = 'FETCH_PROFILE';
 export const FETCH_PROFILE_SUCCESS = 'FETCH_PROFILE_SUCCESS';
 export const FETCH_PROFILE_FAILURE = 'FETCH_PROFILE_FAILURE';
-export const SORT_BY_NAME = 'SORT_BY_NAME';
-export const SORT_BY_STARS = 'SORT_BY_STARS';
+export const SORT_BY = 'SORT_BY';
 export const SET_USER = 'SET_USER';
 export const TOGGLE_VIEW = 'TOGGLE_VIEW';

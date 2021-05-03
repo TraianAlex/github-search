@@ -1,10 +1,8 @@
-import { reverse, sortBy } from 'lodash';
 import {
   FETCH_PROFILE,
   FETCH_PROFILE_SUCCESS,
   FETCH_PROFILE_FAILURE,
-  SORT_BY_NAME,
-  SORT_BY_STARS,
+  SORT_BY,
   SET_USER,
   TOGGLE_VIEW,
 } from '../actions/types';
@@ -16,8 +14,6 @@ const initialState = {
   error: '',
   isCard: true,
 };
-
-const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
 
 export const profileReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -41,26 +37,20 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        profile: sortByProperty(action.payload, ['stargazers_count']),
+        profile: action.payload,
       };
-    case SORT_BY_NAME:
+    case SORT_BY:
       return {
         ...state,
         loading: false,
-        profile: sortByProperty(action.payload, ['name']),
-      };
-    case SORT_BY_STARS:
-      return {
-        ...state,
-        loading: false,
-        profile: sortByProperty(action.payload, ['stargazers_count']),
+        profile: action.payload,
       };
     case FETCH_PROFILE_FAILURE:
       return {
         ...state,
         loading: false,
         profile: [],
-        error: action.payload
+        error: action.payload,
       };
     case TOGGLE_VIEW:
       return {

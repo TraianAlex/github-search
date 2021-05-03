@@ -1,13 +1,15 @@
 import axios from 'axios';
+import { reverse, sortBy } from 'lodash';
 import {
   FETCH_PROFILE,
   FETCH_PROFILE_FAILURE,
   FETCH_PROFILE_SUCCESS,
-  SORT_BY_NAME,
-  SORT_BY_STARS,
+  SORT_BY,
   SET_USER,
   TOGGLE_VIEW,
 } from './types';
+
+const sortByProperty = (obj, param) => reverse(sortBy(obj, [param]));
 
 export const fetchProfile = (user) => async (dispatch) => {
   try {
@@ -17,7 +19,7 @@ export const fetchProfile = (user) => async (dispatch) => {
     );
     dispatch({
       type: FETCH_PROFILE_SUCCESS,
-      payload: data,
+      payload: sortByProperty(data, ['stargazers_count']),
     });
   } catch (error) {
     dispatch({
@@ -31,13 +33,13 @@ export const fetchProfile = (user) => async (dispatch) => {
 };
 
 export const sortByName = (profile) => ({
-  type: SORT_BY_NAME,
-  payload: profile,
+  type: SORT_BY,
+  payload: sortByProperty(profile, ['name']),
 });
 
 export const sortByStars = (profile) => ({
-  type: SORT_BY_STARS,
-  payload: profile,
+  type: SORT_BY,
+  payload: sortByProperty(profile, ['stargazers_count']),
 });
 
 export const setUser = (user) => ({ type: SET_USER, payload: user });
