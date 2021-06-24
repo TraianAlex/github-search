@@ -2,9 +2,10 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { sortByName, sortByStars } from 'store/actions/gitActions';
+import { getProfileState } from 'store/reducers/profileReducer';
 
 export const ProfileTable = () => {
-  const profile = useSelector((state) => state.profile.profile);
+  const { profile } = useSelector(getProfileState);
   const dispatch = useDispatch();
   const sortAlpha = () => dispatch(sortByName(profile));
   const sortDefault = () => dispatch(sortByStars(profile));

@@ -2,13 +2,14 @@ import React from 'react';
 import { Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleView } from 'store/actions/gitActions';
+import { getProfileState } from 'store/reducers/profileReducer';
 import Loader from './Loader';
 import { ProfileCard } from './ProfileCard';
 import { ProfileTable } from './ProfileTable';
 import SortButtons from './SortButtons';
 
 export function Profile() {
-  const { profile, loading, error, isCard } = useSelector((state) => state.profile);
+  const { profile, loading, error, isCard } = useSelector(getProfileState);
   const dispatch = useDispatch();
   const changeView = () => dispatch(toggleView(isCard));
 

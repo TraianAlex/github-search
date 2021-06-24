@@ -56,3 +56,4 @@ export const profileReducer = (state = initialState, action) => {
       return state;
   }
 };
+export const getProfileState = (state) => state.profile;

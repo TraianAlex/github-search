@@ -2,9 +2,10 @@ import React from 'react';
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, fetchProfile } from 'store/actions/gitActions';
+import { getProfileState } from 'store/reducers/profileReducer';
 
 export function SearchForm() {
-  const user = useSelector((state) => state.profile.user);
+  const { user } = useSelector(getProfileState);
   const dispatch = useDispatch();
   const handleSubmit = () => dispatch(fetchProfile(user));
   const onUserChange = ({ target }) => dispatch(setUser(target.value));
