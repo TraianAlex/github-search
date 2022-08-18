@@ -29,7 +29,7 @@ const profileReducer = (state, action) => {
       return {
         ...state,
         user: '',
-        loading: true,
+        loading: action.payload,
         profile: [],
         error: '',
       };
